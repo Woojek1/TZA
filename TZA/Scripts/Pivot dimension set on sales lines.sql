@@ -11,7 +11,7 @@ on sl."dimensionSetID" = ds."dimensionSetID"
 order by 1, 2;
 
 
-SELECT
+select
   sl."documentNo",
   sl."lineNo",
   MAX(CASE WHEN ds."dimensionCode" = 'GR.ZAPAS'    THEN ds."dimensionValueCode" END) AS "GR.ZAPAS",
