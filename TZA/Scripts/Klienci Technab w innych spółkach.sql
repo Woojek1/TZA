@@ -68,7 +68,7 @@ LEFT JOIN
 ON
 	ft.[VAT Registration No_] = kf.[VAT Registration No_]
 ORDER BY
-	[Posting Date] DES
+	[Posting Date] DESC
 
 
 
