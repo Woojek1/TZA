@@ -13,6 +13,7 @@ Technab_Invoices_Online as (
 	select
 		sih."VAT_Registration_No" 
 		,sum(sil."lineAmount") as "TechnabZakupOnline"
+		,count(distinct(sih."No")) as "TechnabIloscZakupowOnline"
 	from
 		bronze.bc_posted_sales_invoices_header_technab sih
 	inner join
@@ -21,7 +22,7 @@ Technab_Invoices_Online as (
 	where 
 		sih."Posting_Date" > '2025-03-01'
 	and 
-		"Order_No" like '%ECM%'		
+		"Order_No" like '%ECM%'
 	group by
 		sih."VAT_Registration_No"
 	order by 
@@ -29,9 +30,10 @@ Technab_Invoices_Online as (
 ),
 
 Technab_Invoices as (
-	select
+	select 
 		sih."VAT_Registration_No"
 		,sum(sil."lineAmount") as "TechnabZakupOffline"
+		,count(distinct(sih."No")) as "TechnabIloscZakupowOffline"
 	from
 		bronze.bc_posted_sales_invoices_header_technab sih
 	inner join
