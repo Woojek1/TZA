@@ -43,7 +43,10 @@ Technab_Invoices as (
 		sih."Posting_Date" > '2025-03-01'
 	and 
 		"Order_No" not like '%ECM%'
+	and
+		sih."VAT_Registration_No" = '5212685755'
 	group by
+	
 		sih."VAT_Registration_No"
 	order by 
 		2, 1
@@ -53,6 +56,7 @@ Aircon_Invoices as (
 	select
 		sih."VAT_Registration_No"
 		,sum(sil."lineAmount") as "AirconZakupOffline"
+		,count(distinct(sih."No")) as "AirconIloscZakupowOffline"
 	from
 		bronze.bc_posted_sales_invoices_header_aircon sih
 	inner join
@@ -72,6 +76,7 @@ Zymetric_Invoices as (
 	select
 		sih."VAT_Registration_No"
 		,sum(sil."lineAmount") as "ZymetricZakupOffline"
+		,count(distinct(sih."No")) as "ZymetricIloscZakupowOffline"
 	from
 		bronze.bc_posted_sales_invoices_header_zymetric sih
 	inner join
@@ -90,9 +95,13 @@ Zymetric_Invoices as (
 select
 	tc.*
 	,tio."TechnabZakupOnline"
+	,tio."TechnabIloscZakupowOnline"	
 	,ti."TechnabZakupOffline"
+	,ti."TechnabIloscZakupowOffline"
 	,ai."AirconZakupOffline"
+	,ai."AirconIloscZakupowOffline"
 	,zi."ZymetricZakupOffline"	
+	,zi."ZymetricIloscZakupowOffline"
 from
 	Technab_Customer tc
 left join 
