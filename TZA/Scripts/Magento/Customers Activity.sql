@@ -1,8 +1,6 @@
 with Technab_Customer as (
 	select 
 		"VAT_Registration_No"
-		,"EDN_Invoice_Email_Address"
-		,"Phone_No"
 		,"MagentoID"
 	from
 		bronze.bc_customers_technab
@@ -11,12 +9,10 @@ with Technab_Customer as (
 	and "VAT_Registration_No" <> ''
 ),
 
-Technab_Invoices as (
+Technab_Invoices_Online as (
 	select
-		sih."No"
-		,sih."VAT_Registration_No"
-		,sum(sil."lineAmount")
-		,max(sih."Posting_Date")
+		sih."VAT_Registration_No" 
+		,sum(sil."lineAmount") as "TechnabZakupOnline"
 	from
 		bronze.bc_posted_sales_invoices_header_technab sih
 	inner join
@@ -24,14 +20,107 @@ Technab_Invoices as (
 	on sih."No" = sil."documentNo"
 	where 
 		sih."Posting_Date" > '2025-03-01'
-	and sih."ITI_Posting_Description" like '/ECM/'
+	and 
+		"Order_No" like '%ECM%'		
 	group by
-		sih."No"
-		,sih."VAT_Registration_No"
+		sih."VAT_Registration_No"
 	order by 
-		2, 1, 4
+		2, 1
+),
+
+Technab_Invoices as (
+	select
+		sih."VAT_Registration_No"
+		,sum(sil."lineAmount") as "TechnabZakupOffline"
+	from
+		bronze.bc_posted_sales_invoices_header_technab sih
+	inner join
+		bronze.bc_posted_sales_invoices_lines_technab sil
+	on sih."No" = sil."documentNo"
+	where 
+		sih."Posting_Date" > '2025-03-01'
+	and 
+		"Order_No" not like '%ECM%'
+	group by
+		sih."VAT_Registration_No"
+	order by 
+		2, 1
+),
+
+Aircon_Invoices as (
+	select
+		sih."VAT_Registration_No"
+		,sum(sil."lineAmount") as "AirconZakupOffline"
+	from
+		bronze.bc_posted_sales_invoices_header_aircon sih
+	inner join
+		bronze.bc_posted_sales_invoices_lines_aircon sil
+	on sih."No" = sil."documentNo"
+	where 
+		sih."Posting_Date" > '2025-03-01'
+	and 
+		"Order_No" not like '%ECM%'
+	group by
+		sih."VAT_Registration_No"
+	order by 
+		2, 1
+),
+
+Zymetric_Invoices as (
+	select
+		sih."VAT_Registration_No"
+		,sum(sil."lineAmount") as "ZymetricZakupOffline"
+	from
+		bronze.bc_posted_sales_invoices_header_zymetric sih
+	inner join
+		bronze.bc_posted_sales_invoices_lines_zymetric sil
+	on sih."No" = sil."documentNo"
+	where 
+		sih."Posting_Date" > '2025-03-01'
+	and 
+		"Order_No" not like '%ECM%'
+	group by
+		sih."VAT_Registration_No"
+	order by 
+		2, 1
 )
 
+select
+	tc.*
+	,tio."TechnabZakupOnline"
+	,ti."TechnabZakupOffline"
+	,ai."AirconZakupOffline"
+	,zi."ZymetricZakupOffline"	
+from
+	Technab_Customer tc
+left join 
+	Technab_Invoices_Online	tio
+on tc."VAT_Registration_No" = tio."VAT_Registration_No"
+left join 
+	Technab_Invoices ti
+on tc."VAT_Registration_No" = ti."VAT_Registration_No"
+left join
+	Aircon_Invoices ai
+on tc."VAT_Registration_No" = ai."VAT_Registration_No"	
+left join
+	Zymetric_Invoices zi
+on tc."VAT_Registration_No" = zi."VAT_Registration_No"	
+order by "TechnabZakupOnline" asc
+
+	
+
+
+
+select
+	"No"
+from
+	bronze.bc_sales_orders_header_technab
+where
+	"Order_Source" = 'MAGENTO'
+
+
+	
+	
 select ti.*
 from
 	Technab_Invoices ti
