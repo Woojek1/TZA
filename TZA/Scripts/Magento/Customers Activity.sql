@@ -43,8 +43,6 @@ Technab_Invoices as (
 		sih."Posting_Date" > '2025-03-01'
 	and 
 		"Order_No" not like '%ECM%'
-	and
-		sih."VAT_Registration_No" = '5212685755'
 	group by
 	
 		sih."VAT_Registration_No"
