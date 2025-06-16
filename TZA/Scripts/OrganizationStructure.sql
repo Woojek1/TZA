@@ -22,13 +22,12 @@ SELECT
     p2."Pracownik" AS "Przelozony (N-1)",
     p2."EmailHR" AS "EmailPrzelozonego (N-1)",
     
-    -- 3. Prezes
-    
+    -- 3. Prezes    
     p3."Pracownik" AS "Przelozony (N)",
     p3."EmailHR" AS "EmailPrzelozonego (N)"  
 
 FROM bronze.hr_enova_struktura_organizacyjna_zymetric p
-LEFT JOIN bronze.hr_enova_struktura_organizacyjna_zymetric p1 ON p."PrzelozonyID" = p1."PracownikID"
+LEFT JOINbronze.hr_enova_struktura_organizacyjna_zymetric p1 ON p."PrzelozonyID" = p1."PracownikID"
 LEFT JOIN bronze.hr_enova_struktura_organizacyjna_zymetric p2 ON p1."PrzelozonyID" = p2."PracownikID"
 LEFT JOIN bronze.hr_enova_struktura_organizacyjna_zymetric p3 ON p2."PrzelozonyID" = p3."PracownikID"
 ORDER BY p."Pracownik"
