@@ -100,4 +100,91 @@ customers_bought_mitsu as
 	group by 
 		"VAT Registration No_"
 	order by 1
+	),
+	
+customers_bc_aircon as
+	(
+	select 
+		"Name"
+		,"VAT_Registration_No"
+		,"E_Mail"
+		,"Phone_No"
+	from
+		silver.bc_customers_aircon
+	),
+
+customers_bc_technab as
+	(
+	select 
+		"Name"
+		,"VAT_Registration_No"
+		,"E_Mail"
+		,"Phone_No"
+	from
+		silver.bc_customers_technab
+	),
+	
+customers_bc_zymetric as
+	(
+	select 
+		"Name"
+		,"VAT_Registration_No"
+		,"E_Mail"
+		,"Phone_No"
+	from
+		silver.bc_customers_zymetric
+	),
+	
+customers_bc as (
+	select *
+	from
+		customers_bc_aircon
+	union
+	select *
+	from
+		customers_bc_technab
+	union
+	select *
+	from
+		customers_bc_zymetric
 	)
+
+--klienci_bc as
+--	(
+select 
+	max(cbc."Name") as "Name"
+	,cbc."VAT_Registration_No"
+	,max(cbc."E_Mail") as "E_Mail"
+	,max(cbc."Phone_No") as "Phone_No"
+from
+	"customers_bc" cbc
+inner join
+	"customers_bought_mitsu" cbm
+on cbc."VAT_Registration_No" = cbm."VAT Registration No_"
+where
+	cbc."VAT_Registration_No" is not null and cbc."VAT_Registration_No" <> ''
+group by
+	cbc."VAT_Registration_No"
+	
+--)
+--
+--select
+--	"VAT_Registration_No"
+--	,count("VAT_Registration_No")
+--from
+--	klienci_bc
+--	klienci_bc
+--group by
+--	"VAT_Registration_No"
+--	
+--	
+--select *
+----from
+----	customers_bc
+--where 
+--	"VAT_Registration_No" in (
+--							 select
+--							 	"VAT Registration No_"
+--							 from
+--							 	"customers_bought_mitsu"
+--									)
