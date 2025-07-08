@@ -13,5 +13,7 @@ FROM
 where
 	"NoOrder" like '%ECM%'
 and 
-	"PostingDate" >= '2025-04-01'
+	"PostingDate" >= '2025-06-01'
+and	
+	"PostingDate" <= '2025-06-30'
 order by 2
