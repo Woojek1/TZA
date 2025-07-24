@@ -3,12 +3,12 @@
 
 	
 DECLARE @DataAnalizy DATE;
-SET @DataAnalizy = '2025-03-31';	
+SET @DataAnalizy = '2025-03-21';	
 
 WITH Urzadzenia_BC AS (
 
---DECLARE @DataAnalizy DATE;
---SET @DataAnalizy = '2025-03-31';
+DECLARE @DataAnalizy DATE;
+SET @DataAnalizy = '2025-03-31';
 
 	SELECT 
 		[Item No_]
@@ -42,8 +42,8 @@ WITH Urzadzenia_BC AS (
 
 Urzadzenia_NAV AS (
 
---DECLARE @DataAnalizy DATE;
---SET @DataAnalizy = '2025-03-31';
+DECLARE @DataAnalizy DATE;
+SET @DataAnalizy = '2025-03-31';
 
 	SELECT 
 		[Item No_]
@@ -51,7 +51,7 @@ Urzadzenia_NAV AS (
 		,SUM([Quantity]) AS [Ilosc na stanie]
 		,CAST(MIN([Posting Date]) AS DATE) AS [Pierwsza data]
 		,CAST(MAX([Posting Date]) AS DATE) AS [Ostatnia data]
-		,DATEDIFF(DAY, MIN([Posting Date]), @DataAnalizy) AS [WIEK]
+		,DATEDIFF(DAY, MIN([Posting Date]), @DataAnalizy) AS [WIEK W DNIACH] 
 		,CASE 
 			WHEN DATEDIFF(DAY, MIN([Posting Date]), @DataAnalizy) > 2555 THEN 'Powyzej 7 lat'
 			WHEN DATEDIFF(DAY, MIN([Posting Date]), @DataAnalizy) > 1825 THEN '5-7 lat'
@@ -66,6 +66,7 @@ Urzadzenia_NAV AS (
 			[Serial No_] IS NOT NULL
 			AND [Serial No_] <> ''
 			AND [Posting Date] <= '2025-03-31'
+			and [Item No_] = 'MI/MI2-28Q4DN1'
 		GROUP BY 
 			[Item No_]
 			,[Serial No_] 
@@ -84,6 +85,10 @@ Koszt_Urzadzen AS (
 ),
 
 Numer_seryjny_z_wiekiem AS (
+
+DECLARE @DataAnalizy DATE;
+SET @DataAnalizy = '2025-03-31';
+
 SELECT 
 	BC.[Item No_]
 	,BC.[Serial No_] 
@@ -178,7 +183,7 @@ ORDER BY
 	
 
 DECLARE @DataAnalizy DATE;
-SET @DataAnalizy = '2025-03-31';
+SET @DataAnalizy = '2025-07-15';
 	
 SELECT 
 	[Item No_]

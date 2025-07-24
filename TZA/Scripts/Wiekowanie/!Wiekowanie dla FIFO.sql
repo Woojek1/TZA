@@ -1,7 +1,7 @@
 ---CZESC DO PRZYPISANIA DAT NA BILANSIE OTWARCIA W BC------------------
 ----
 
-;WITH Podstawowa_iae_BC AS(
+WITH Podstawowa_iae_BC AS(
 	SELECT 
 		ile.[Item No_]
 		,ile.[Remaining Quantity] 		-- odnosi się do kolumny z Item Ledger Entry pokazuje pozostałą ilość urządzen z konkretnego przyjecia
@@ -13,11 +13,11 @@
 	    ,CAST(iae.[Posting Date] AS DATE) AS [Posting Date]
 	FROM 
 	    Wiekowanie.dbo.[Nabilaton$Item Application Entry$437dbf0e-84ff-417a-965d-ed2bb9650972] iae
-	LEFT JOIN 
+	LEFT JOIN
 	    Wiekowanie.dbo.[Nabilaton$Item Ledger Entry$437dbf0e-84ff-417a-965d-ed2bb9650972] ile
 	ON iae.[Item Ledger Entry No_] = ile.[Entry No_]
-	WHERE 
-		iae.[Posting Date] <= '2025-03-31'
+	WHERE
+		iae.[Posting Date] <= '2025-07-16'
 	AND
 		ile.[Serial No_] = ''
 ),
@@ -29,7 +29,7 @@ Urzadzenia_z_NAV_poprz_data AS (
 		,MIN(CAST([Posting Date] AS DATE)) AS [Posting Date]
 	FROM
 		Wiekowanie.dbo.[Nabilaton_Sp_zoo$Item Ledger Entry]
-	WHERE 
+	WHERE
 		[Remaining Quantity] > 0
 	GROUP BY [Item No_], [Remaining Quantity]
 ),
@@ -164,11 +164,8 @@ SELECT *
 FROM Wiekowanie.dbo.rep_Nabilaton
 
 
-
-
-
-
-
+--------------------------------------------------
+---------TWORZENIE TABEL
 
 
 
