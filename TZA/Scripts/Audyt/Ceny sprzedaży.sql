@@ -1,5 +1,5 @@
 select
-	"PostingDate" 
+	max("PostingDate") as "PostingDate"
 	,"NoItem"
 	,"ItemDescription"
 	,max(round("AmountLCY"/"Quantity", 2)) as "AmountPLN"
@@ -15,9 +15,12 @@ and
 	"PostingDate" <= '2025-07-31' 
 and	
 	"Type" = 'Towar'
+and
+	"Company" = 'Zymetric'
 group by 
 	"NoItem"
 	,"ItemDescription"
 	,"CurrencyCode"
 order by
 	2, 1
+	
