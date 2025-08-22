@@ -8,7 +8,7 @@ SELECT
 	,"Debit Amount"
 	,"Credit Amount"
 FROM
-	BC_DEV_cycle.dbo.[Zymetric$G_L Entry$437dbf0e-84ff-417a-965d-ed2bb9650972]
+	BC_DEV_cycle.dbo.[Nabilaton$G_L Entry$437dbf0e-84ff-417a-965d-ed2bb9650972]
 WHERE
 	[Posting Date] >= '2024-04-01'
 AND

@@ -16,11 +16,10 @@ and
 and	
 	"Type" = 'Towar'
 and
-	"Company" = 'Zymetric'
+	"Company" = 'Aircon'
 group by 
 	"NoItem"
 	,"ItemDescription"
 	,"CurrencyCode"
 order by
 	2, 1
-	
