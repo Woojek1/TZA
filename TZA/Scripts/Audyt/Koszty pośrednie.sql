@@ -9,8 +9,7 @@ SELECT
 	,"Cost_Amount_Actual" as "Kwota kosztu (rzeczywista)"
 	,"Cost_Posted_to_G_L" as "Koszt zaksięgowany w K/G"
 	,"Gen_Prod_Posting_Group" as "Gł. tow. grupa księgowa"
-	,"Source_No" as "Dostawca"
-	,c."Name"
+	,c."Name" as "Dostawca"
 FROM
 	bronze.bc_values_entries_zymetric ve
 left join
