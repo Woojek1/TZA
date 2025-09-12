@@ -19,4 +19,5 @@ on
 where
 	"Item_Ledger_Entry_Type" = 'Purchase'
 and
-	"Posting_Date" BETWEEN '01-04-2024' and '31-05-2024'
+	"Posting_Date" BETWEEN '01-04-2024' and '31-03-2025'
+order by 1 asc
